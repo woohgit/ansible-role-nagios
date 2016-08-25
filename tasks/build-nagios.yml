@@ -65,7 +65,7 @@
   notify: restart nagios
 
 - name: ./configure
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
 - name: Make all
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
