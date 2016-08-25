@@ -36,7 +36,7 @@
     name: cgi
     state: present
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04' and with_apache == true
 
 - name: Enable version
   file:
