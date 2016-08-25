@@ -12,6 +12,15 @@
    - libgd2-xpm-dev
    - libapache2-mod-php5
    - unzip
+  when: with_apache == true
+
+- name: install nginx
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items:
+   - nginx
+   - php5-fpm
+   - unzip
+  when: with_nginx == true
 
 - name: Install Nagios prerequisites for Ubuntu
   apt: pkg={{ item }} state=present
