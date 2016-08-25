@@ -65,7 +65,7 @@
   notify: restart nagios
 
 - name: ./configure
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure creates={{ download_dir }}/{{ nagiossrc }}/Makefile
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} --with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }}  creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
 - name: Make all
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
@@ -82,8 +82,17 @@
 - name: Make install-devel
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-devel creates=/usr/local/nagios/include/nagios/nagios.h
 
+- name: Make install-webconf
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates={{ with_httpd_conf }}/nagios.conf
+  notify: restart apache
+  when: with_apache == true
+
 - name: Make install-init
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
+
+- name: Set htpasswd for gui users
+  htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
+  with_items: "{{ nagios_users }}"
 
 - name: Ensure Nagios is started
   service: name=nagios state=started enabled=yes
