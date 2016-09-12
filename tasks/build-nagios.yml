@@ -94,5 +94,8 @@
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
   with_items: "{{ nagios_users }}"
 
+- name: Create rcS.d symlink
+  file: src=/etc/rcS.d/S99nagios dest=/etc/init.d/nagios state=link
+
 - name: Ensure Nagios is started
   service: name=nagios state=started enabled=yes
