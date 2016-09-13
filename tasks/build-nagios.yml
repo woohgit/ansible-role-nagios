@@ -99,3 +99,4 @@
 
 - name: Ensure Nagios is started
   service: name=nagios state=started enabled=yes
+  ignore_errors: yes
