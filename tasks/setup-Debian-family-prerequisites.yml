@@ -18,7 +18,7 @@
   apt: pkg={{ item }} state=present update_cache=yes
   with_items:
    - nginx
-   - php5-fpm
+   - php-fpm
    - unzip
   when: with_nginx == true
 
