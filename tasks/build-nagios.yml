@@ -41,7 +41,6 @@
     - "/usr/local/nagios/share/main.html"
     - "/usr/local/nagios/share/index.html"
     - "/usr/local/nagios/share/side.html"
-    - "{{ with_httpd_conf }}/nagios.conf"
     - "/usr/local/nagios/bin/nagios"
     - "/usr/local/nagios/include/nagios/nagios.h"
     - "/etc/init.d/nagios"
@@ -56,7 +55,6 @@
     - "/usr/local/nagios/share/main.html"
     - "/usr/local/nagios/share/index.html"
     - "/usr/local/nagios/share/side.html"
-    - "{{ with_httpd_conf }}/nagios.conf"
     - "/usr/local/nagios/bin/nagios"
     - "/usr/local/nagios/var/rw"
     - "/usr/local/nagios/include/nagios/nagios.h"
@@ -65,7 +63,7 @@
   notify: restart nagios
 
 - name: ./configure
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} --with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }}  creates={{ download_dir }}/{{ nagiossrc }}/Makefile
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }}  --with-nagios-user={{ monitoring_user }}  creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
 - name: Make all
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
